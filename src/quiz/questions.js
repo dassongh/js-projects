@@ -26,7 +26,7 @@ export default [
   {
     question: 'What does the following proverb mean? "An apple a day, keeps a doctor away"',
     a: 'Eating an apple a day makes you happy',
-    b: 'Eating an apple a day makes you healty',
+    b: 'Eating an apple a day makes you healthy',
     c: 'Not eating apple a day makes you happy',
     d: 'Eating an apple day after day before another day makes you feel good',
     correct: 'b',
