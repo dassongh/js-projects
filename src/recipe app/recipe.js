@@ -71,7 +71,6 @@ const renderMeal = (meal, random = false) => {
 
       modalRef.addEventListener('click', (e) => {
         if (e.currentTarget === e.target) refs.info.innerHTML = '';
-        console.log('clock')
       })
     })
   });
