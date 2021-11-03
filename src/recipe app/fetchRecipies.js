@@ -15,4 +15,9 @@ export default class FetchMeals {
     const response = await fetch(`${BASE_URL}random.php`);
     return await response.json();
   }
+
+  async byId(id) {
+    const response = await fetch(`${BASE_URL}lookup.php?i=${id}`);
+    return await response.json();
+  }
 }

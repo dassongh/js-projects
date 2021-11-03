@@ -6,41 +6,42 @@ const refs = {
   categoriesBtns: document.querySelectorAll('[data-name]'),
   input: document.querySelector('#input'),
   searchBtn: document.querySelector('#search'),
+  info: document.querySelector('.info'),
 };
 const fetchMeals = new FetchMeals;
 
-const renderInfo = ({ strMeal, strMealThumb, strInstructions }) => {
-  const markup = `<div class="modal-overlay">
-                    <div class="modal">
+const renderInfo = meal => {
+  const ingrArray = [];
+
+  for (let i = 1; i <= 20; i += 1) {
+    if (meal['strIngredient' + i]) {
+      ingrArray.push(`${meal['strIngredient' + i]} / ${meal['strMeasure' + i]}`);
+    } else {
+      break;
+    }
+  }
+
+  const markup = ` <div class="modal-overlay">
+                  <div class="modal">
                       <div class="modal-header">
-                        <button type="button" class="modal-close"><i class="fas fa-times"></i></button>
-                        <h4>${strMeal}</h4>
-                        <img src="${strMealThumb}" alt="${strMeal}">
-                      </div>
+                      <button type="button" class="modal-close"><i class="fas fa-times"></i></button>
+                    <h4>${meal.strMeal}</h4>
+                    <img src="${meal.strMealThumb}" alt="${meal.strMeal}">
+                  </div>
                       <div class="modal-body">
-                        <p>${strInstructions}</p>
+                        <p>${meal.strInstructions}</p>
+                        <h5>Ingredients</h5>
+                        <ul>
+                        ${ingrArray.map(el => `<li>${el}</li>`).join('')}
+                        </ul>
                       </div>
                     </div>
-                  </div>`;
-  
-  document.body.insertAdjacentHTML('beforeend', markup);
-
-  const closeBtnRef = document.querySelector('.modal-close');
-  const modalRef = document.querySelector('.modal-overlay');
-
-  closeBtnRef.addEventListener('click', () => {
-    modalRef.classList.add('is-hidden');
-    
-  });
-};
-
-const toggleHeartBtn = () => {
-  const btnsHeart = refs.mealsSection.querySelectorAll('button');
-  btnsHeart.forEach(btn => btn.addEventListener('click', () => btn.classList.toggle('active')));
-};
+                  </div>`
+  refs.info.insertAdjacentHTML('beforeend', markup);
+}
 
 const renderMeal = (meal, random = false) => {
-  const { strMealThumb, strMeal } = meal;
+  const { strMealThumb, strMeal, idMeal } = meal;
   const markup = `<article class="meal">
                     <div class="meal-header">
                       ${random ? '<h4>Random meal</h4>' : ''}
@@ -48,17 +49,31 @@ const renderMeal = (meal, random = false) => {
                     </div>
                     <div class="meal-body">
                       <h4>${strMeal}</h4>
-                      <button type="button"><i class="fas fa-heart"></i></button>
+                      <button type="button" class="open"><i class="fas fa-expand-arrows-alt"></i></button>
                     </div>
-                  </article>`;
+                  </article>
+                 `;
   
   refs.mealsSection.insertAdjacentHTML('afterbegin', markup);
-  toggleHeartBtn();
   
-  const mealRef = refs.mealsSection.querySelector('.meal');
+  const openBtnRef = document.querySelector('.open');
   
-  mealRef.addEventListener('click', () => {
-    renderInfo(meal);
+  openBtnRef.addEventListener('click', () => {
+    fetchMeals.byId(idMeal).then(data => {
+      renderInfo(data.meals[0]);
+
+      const closeBtnRef = document.querySelector('.modal-close');
+      const modalRef = document.querySelector('.modal-overlay');
+
+      closeBtnRef.addEventListener('click', () => {
+        refs.info.innerHTML = '';
+      });
+
+      modalRef.addEventListener('click', (e) => {
+        if (e.currentTarget === e.target) refs.info.innerHTML = '';
+        console.log('clock')
+      })
+    })
   });
 };
 
@@ -77,7 +92,7 @@ refs.categoriesBtns.forEach(btn => {
     fetchMeals.byCategory(category).then(data => {
       data.meals.forEach(meal => renderMeal(meal));
     });
-  })
+  });
 });
 
 refs.searchBtn.addEventListener('click', () => {
