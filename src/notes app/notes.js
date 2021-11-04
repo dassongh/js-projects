@@ -47,11 +47,21 @@ function addNote(data = '') {
   });
 
   refs.deleteBtn.addEventListener('click', () => {
-    note.remove();
+    requestAnimationFrame(() => {
+      note.classList.add('note-out');
+    });
+    setTimeout(() => {
+      note.remove();
+    }, 250);
     setToLS();
   });
 
   refs.textarea.addEventListener('input', setToLS);
-
+  
+  
   document.body.appendChild(note);
+
+  requestAnimationFrame(() => {
+    note.classList.add('note-in');
+  });
 }
