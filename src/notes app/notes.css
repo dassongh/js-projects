@@ -105,6 +105,7 @@ textarea {
   font-family: inherit;
   padding: 15px;
   outline: none;
+  resize: none;
 }
 
 .is-hidden {
