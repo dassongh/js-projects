@@ -52,8 +52,8 @@ function addNote(data = '') {
     });
     setTimeout(() => {
       note.remove();
+      setToLS();
     }, 250);
-    setToLS();
   });
 
   refs.textarea.addEventListener('input', setToLS);
