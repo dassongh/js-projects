@@ -16,6 +16,35 @@
       <input type="text" placeholder="What you need to do" class="input">
       <button type="submit" class="btn-add"><i class="fas fa-plus"></i></button>
     </form>
+    <ul class="todos">
+      <li class="todo" data-finished="false"><button class="btn-delete is-hidden">
+        <i class="far fa-minus-square">
+        </i>
+      </button>awfgwga</li>
+      <li class="todo" data-finished="false"><button class="btn-delete is-hidden">
+        <i class="far fa-minus-square">
+        </i>
+      </button>awfgwga</li>
+      <li class="todo checked" data-finished="true"><button class="btn-delete is-hidden">
+        <i class="far fa-minus-square">
+        </i>
+      </button>awfgwga</li>
+    </ul>
+    <ul class="radio-todos">
+      <li class="radio-todo radio-checked">
+        <input type="radio" name="display" id="all" class="radio" checked>
+        <label for="all">all</label>
+      </li>
+      <li class="radio-todo">
+        <input type="radio" name="display" id="finished" class="radio">
+        <label for="finished">finished</label>
+      </li>
+      <li class="radio-todo">
+        <input type="radio" name="display" id="unfinished" class="radio">
+        <label for="unfinished">unfinished</label>
+      </li>
+    </ul>
   </div>
+  <script src="./todos.js"></script>
 </body>
 </html>
