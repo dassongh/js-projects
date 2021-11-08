@@ -13,7 +13,6 @@ refs.radioBtns.forEach(btn => {
   btn.addEventListener('click', e => {
     const todos = refs.todosUl.childNodes;
     const liRef = e.target.parentElement;
-    console.log(liRef.previousElementSibling)
 
     todos.forEach(todo => {
       switch (e.target.id) {
