@@ -37,6 +37,7 @@ h1 {
   border: none;
   font-family: inherit;
   margin-bottom: 20px;
+  box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.1);
 }
 
 .input::placeholder {
@@ -74,6 +75,14 @@ h1 {
   font-size: 12px;
   border-radius: 5px;
   cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.todo-out {
+  transform: translateX(100px);
+  opacity: 0;
 }
 
 .btn-delete {
@@ -104,26 +113,16 @@ h1 {
   background-color: #eef1f7;
   font-weight: 300;
   font-size: 14px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.radio-todo {
-  padding: 5px 10px;
-}
-
-.radio-todo label {
+.radio-btn {
   color: #686d74;
   cursor: pointer;
-}
-
-.radio {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  overflow: hidden;
-  border: 0;
-  clip: rect(0 0 0 0);
+  background-color: transparent;
+  border: none;
+  font-family: inherit;
+  padding: 5px 10px;
 }
 
 .radio-checked {

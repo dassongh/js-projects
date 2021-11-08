@@ -1,93 +1,55 @@
 const refs = {
   form: document.getElementById('form'),
   todosUl: document.querySelector('.todos'),
-  radioBtns: document.querySelectorAll('.radio'),
+  radioBtns: document.querySelectorAll('.radio-btn'),
 };
+
+const todos = JSON.parse(localStorage.getItem('todos'));
+if (todos) {
+    getTodos(todos);
+}
 
 refs.radioBtns.forEach(btn => {
   btn.addEventListener('click', e => {
-    const todoRefs = document.querySelectorAll('.todo');
-    const radioElement = e.target;
-    const allRef = document.getElementById('all');
-    const finishedRef = document.getElementById('finished');
-    const unfinishedRef = document.getElementById('unfinished');
+    const todos = refs.todosUl.childNodes;
+    const liRef = e.target.parentElement;
+    console.log(liRef.previousElementSibling)
 
-    if (finishedRef.checked) {
-      
-    }
+    todos.forEach(todo => {
+      switch (e.target.id) {
+        case 'all':
+          todo.style.display = 'list-item';
 
+          liRef.classList.add('radio-checked');
+          liRef.nextElementSibling.classList.remove('radio-checked');
+          liRef.nextElementSibling.nextElementSibling.classList.remove('radio-checked');
+          break;
+        case 'finished':
+          if (todo.classList.contains('checked')) {
+            todo.style.display = 'list-item';
+          } else {
+            todo.style.display = 'none';
+          }
 
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
+          liRef.previousElementSibling.classList.remove('radio-checked');
+          liRef.classList.add('radio-checked');
+          liRef.nextElementSibling.classList.remove('radio-checked');
+          break;
+        case 'unfinished':
+          if (!todo.classList.contains('checked')) {
+            todo.style.display = 'list-item';
+          } else {
+            todo.style.display = 'none';
+          }
 
-    // if (finishedRef.checked) {
-    //   todoRefs.forEach(todo => {
-    //     if (!todo.classList.contains('checked')) {
-    //       todo.classList.add('is-hidden');
-    //       radioElement.parentElement.classList.add('radio-checked');
-    //       radioElement.parentElement.previousElementSibling.classList.remove('radio-checked');
-    //       radioElement.parentElement.nextElementSibling.classList.remove('radio-checked');
-    //     }
-    //   });
-    // }
-    
-    // if (unfinishedRef.checked) {
-    //   todoRefs.forEach(todo => {
-    //     if (todo.classList.contains('checked')) {
-    //       todo.classList.add('is-hidden');
-    //       radioElement.parentElement.classList.add('radio-checked');
-    //       radioElement.parentElement.previousElementSibling.classList.remove('radio-checked');
-    //       radioElement.parentElement.previousElementSibling.previousElementSibling.classList.remove('radio-checked');
-    //     }
-    //   });
-    // }
-
-    // todoRefs.forEach(todo => {
-    //   if (finishedRef.checked && !todo.classList.contains('checked')) {
-    //     todo.classList.add('is-hidden');
-    //     radioElement.parentElement.classList.add('radio-checked');
-    //     radioElement.parentElement.previousElementSibling.classList.remove('radio-checked');
-    //     radioElement.parentElement.nextElementSibling.classList.remove('radio-checked');
-    //   } else if (unfinishedRef.checked && todo.classList.contains('checked')) {
-    //     todo.classList.add('is-hidden');
-    //     radioElement.parentElement.classList.add('radio-checked');
-    //     radioElement.parentElement.previousElementSibling.classList.remove('radio-checked');
-    //     radioElement.parentElement.previousElementSibling.previousElementSibling.classList.remove('radio-checked');
-    //   }
-    // })
-
-    // if (e.target.id === 'finished') {
-    //   todoRefs.forEach(todo => {
-    //     if (!todo.classList.contains('checked')) {
-    //       todo.style.display = 'none';
-    //     }
-    //   });
-    // }
+          liRef.previousElementSibling.previousElementSibling.classList.remove('radio-checked');
+          liRef.previousElementSibling.classList.remove('radio-checked');
+          liRef.classList.add('radio-checked');
+          break;
+      }
+    });
   });
-})
-
-// console.log(refs.radioBtns)
+});
 
 refs.form.addEventListener('submit', e => {
   e.preventDefault();
@@ -104,18 +66,25 @@ refs.form.addEventListener('submit', e => {
 function renderTodo(data) {
   const todoEl = document.createElement('li');
   todoEl.classList.add('todo');
-  todoEl.dataset.finished = 'false';
   todoEl.innerHTML = `<button class="btn-delete is-hidden">
                       <i class="far fa-minus-square">
                       </i>
                       </button>${data}`;
   
   const btn = todoEl.querySelector('.btn-delete');
-  btn.addEventListener('click', () => todoEl.remove());
+  btn.addEventListener('click', () => {
+    todoEl.classList.add('todo-out');
+    todoEl.addEventListener('transitionend', () => {
+      todoEl.remove();
+      updateLS();
+    });
+  });
 
   toggleTodos(todoEl);
 
   refs.todosUl.prepend(todoEl);
+
+  updateLS();
 }
 
 function toggleTodos(el) {
@@ -129,5 +98,50 @@ function toggleTodos(el) {
     }
 
     el.children[0].classList.toggle('is-hidden');
+
+    updateLS();
+  });
+}
+
+function updateLS() {
+  const todoRefs = document.querySelectorAll('.todo');
+
+  const todos = [];
+
+  todoRefs.forEach(todo => {
+    todos.push({
+      text: todo.innerText,
+      finished: todo.classList.contains('checked'),
+    });
+  });
+
+  localStorage.setItem('todos', JSON.stringify(todos));
+}
+
+function getTodos(todos) {
+  todos.forEach(({ text, finished }) => {
+    const todoEl = document.createElement('li');
+    todoEl.classList.add('todo');
+    todoEl.innerHTML = `<button class="btn-delete ${finished ? '' : 'is-hidden'}">
+                        <i class="far fa-minus-square">
+                        </i>
+                        </button>${text}`;
+    
+    if (finished === true) todoEl.classList.add('checked');
+    
+    const btn = todoEl.querySelector('.btn-delete');
+    btn.addEventListener('click', () => {
+      todoEl.classList.add('todo-out');
+      todoEl.addEventListener('transitionend', () => {
+        todoEl.remove();
+        updateLS();
+      });
+    });
+
+    toggleTodos(todoEl);
+
+    refs.todosUl.appendChild(todoEl);
+
+    updateLS();
   });
 }
