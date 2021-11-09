@@ -5,4 +5,5 @@ Trying to increase difficulty with every next project
 
 
 
-###### Inspired by https://github.com/florinpop17/app-ideas
+
+###### https://dassongh.github.io/js-projects/
