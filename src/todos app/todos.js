@@ -87,7 +87,6 @@ function renderTodo(data) {
 function toggleTodos(el) {
   el.addEventListener('click', () => {
     el.classList.toggle('checked');
-
     el.children[0].classList.toggle('is-hidden');
 
     updateLS();
