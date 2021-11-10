@@ -5,9 +5,7 @@ const refs = {
 };
 
 const todos = JSON.parse(localStorage.getItem('todos'));
-if (todos) {
-    getTodos(todos);
-}
+if (todos) getTodos(todos);
 
 refs.radioBtns.forEach(btn => {
   btn.addEventListener('click', e => {
