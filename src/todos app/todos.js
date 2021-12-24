@@ -5,9 +5,7 @@ const refs = {
 };
 
 const todos = JSON.parse(localStorage.getItem('todos'));
-if (todos) {
-  getTodos(todos);
-}
+if (todos) getTodos(todos);
 
 refs.radioBtns.forEach(btn => {
   btn.addEventListener('click', e => {
@@ -89,13 +87,6 @@ function renderTodo(data) {
 function toggleTodos(el) {
   el.addEventListener('click', () => {
     el.classList.toggle('checked');
-
-    if (el.classList.contains('checked')) {
-      el.dataset.finished = 'true';
-    } else {
-      el.dataset.finished = 'false';
-    }
-
     el.children[0].classList.toggle('is-hidden');
 
     updateLS();
