@@ -69,6 +69,7 @@ body {
 }
 
 .field {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -86,10 +87,30 @@ body {
 }
 
 .field:not(:last-child)::after {
-  display: block;
+  position: absolute;
   content: ':';
-  margin-top: -72px;
-  margin-right: -80px;
+  right: -7px;
+  top: 23px;
   font-weight: bold;
   color: #333333;
+}
+
+.homeBtn {
+  position: absolute;
+  top: 30px;
+  left: 20px;
+  background-color: #0984e3;
+  padding: 10px 20px;
+  font-family: inherit;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: white;
+  border-radius: 5px;
+  box-shadow: 0 0 10px 10px rgba(43, 42, 42, 0.1);
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.homeBtn:hover,
+.homeBtn:focus {
+  background-color: #185786;
 }

@@ -112,3 +112,23 @@ textarea {
 .is-hidden {
   display: none;
 }
+
+.homeBtn {
+  position: absolute;
+  bottom: 80px;
+  right: 20px;
+  background-color: #0984e3;
+  padding: 10px 20px;
+  font-family: inherit;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: white;
+  border-radius: 5px;
+  box-shadow: 0 0 10px 10px rgba(43, 42, 42, 0.1);
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.homeBtn:hover,
+.homeBtn:focus {
+  background-color: #185786;
+}

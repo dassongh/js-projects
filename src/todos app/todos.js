@@ -6,7 +6,7 @@ const refs = {
 
 const todos = JSON.parse(localStorage.getItem('todos'));
 if (todos) {
-    getTodos(todos);
+  getTodos(todos);
 }
 
 refs.radioBtns.forEach(btn => {
@@ -54,13 +54,13 @@ refs.form.addEventListener('submit', e => {
   e.preventDefault();
 
   let todo = e.currentTarget[0].value;
-  
+
   if (!todo) return;
 
   renderTodo(todo);
 
-  e.currentTarget.reset()
-})
+  e.currentTarget.reset();
+});
 
 function renderTodo(data) {
   const todoEl = document.createElement('li');
@@ -69,7 +69,7 @@ function renderTodo(data) {
                       <i class="far fa-minus-square">
                       </i>
                       </button>${data}`;
-  
+
   const btn = todoEl.querySelector('.btn-delete');
   btn.addEventListener('click', () => {
     todoEl.classList.add('todo-out');
@@ -125,9 +125,9 @@ function getTodos(todos) {
                         <i class="far fa-minus-square">
                         </i>
                         </button>${text}`;
-    
-    if (finished === true) todoEl.classList.add('checked');
-    
+
+    if (finished) todoEl.classList.add('checked');
+
     const btn = todoEl.querySelector('.btn-delete');
     btn.addEventListener('click', () => {
       todoEl.classList.add('todo-out');
